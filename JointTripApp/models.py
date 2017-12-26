@@ -14,8 +14,8 @@ class Traveler(models.Model):
     email = models.CharField(max_length=255)
 
     def __str__(self):
-        return 'Username: %s; email: %s' % (
-            self.user.username, self.email)
+        return 'Username: %s; Name: %s; Surname: %s; email: %s' % (
+            self.user.username, self.name, self.surname, self.email)
 
 
 # поездка
