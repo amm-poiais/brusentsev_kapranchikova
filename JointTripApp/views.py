@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.contrib import auth
+from django.shortcuts import render, redirect, render_to_response
+from django.template.context_processors import csrf
+
 from .models import Traveler
 from .models import Trip
 from .models import Review
@@ -18,4 +21,22 @@ def index(request):
 
 
 def signin(request):
-    return render(request, 'JointTripApp/signin.html')
+    args = {}
+    args.update(csrf(request))
+    if request.POST:
+        login = request.POST.get('login', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(username=login, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            args['login_error'] = "Пользователь не найден"
+            return render_to_response('JointTripApp/signin.html', args)
+    else:
+        return render_to_response('JointTripApp/signin.html', args)
+
+
+def signout(request):
+    auth.logout(request)
+    return redirect('/')
