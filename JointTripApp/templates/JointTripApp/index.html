@@ -52,14 +52,21 @@
                 <div class="trip">
                     <div class="title">
                         <a href="">{{ trip.departure }} - {{ trip.arrival }}</a>
+                        <div class="time">{{ trip.start_time }}</div>
                     </div>
-                    <div class="description">{{ trip.comment }}</div>
-                    <div class="time">{{ trip.start_time }}</div>
-                    <div class="icon-conditions">
-                        <div class="icon talk allow"></div>
-                        <div class="icon pets"></div>
-                        <div class="icon smoke"></div>
+                    <div class="wrap-price-comm">
+                        <div class="description">{{ trip.comment }}</div>
+                        <div class="price">{{ trip.price }}p.</div>
                     </div>
+                    <div class="wrap-icons-button">
+                        <div class="icon-conditions">
+                            <div class="icon talk allow"></div>
+                            <div class="icon pets"></div>
+                            <div class="icon smoke"></div>
+                        </div>
+                        <a class="trip__button"  href="#">Присоединиться</a>
+                    </div>
+
                 </div>
                 {% endfor %}
             </div>

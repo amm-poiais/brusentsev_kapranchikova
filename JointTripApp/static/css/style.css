@@ -68,11 +68,6 @@ body {
     background: #4682B4;
 }
 
-.filters__button:active {
-    background: rgb(33, 147, 90);
-    box-shadow: 0 3px rgb(33, 147, 90) inset;
-}
-
 .content {
     width: 1000px;
     margin: auto;
@@ -82,7 +77,8 @@ body {
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 30px;
+    margin-left: 20px;
 }
 
 .trip {
@@ -92,19 +88,61 @@ h2 {
     border-bottom: 1px solid #cdcfd3;
     border-radius: 2px;
 }
+.trip .title{
+   margin-bottom: 10px;
+}
 
 .trip .title a {
     color: #2a5885;
-    display: block;
     font-size: 20px;
-    margin-bottom: 10px;
     font-weight: bold;
 }
 
 .trip .title a:hover {
     text-decoration: underline;
 }
+.trip .time{
+    font-size: 14px;
+    margin-top: 5px;
+    color: #4a4a4a;
+}
+.trip .description{
+    font-size: 18px;
+    flex-basis: 800px;
+}
 
+.wrap-price-comm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 5px;
+}
+
+.wrap-icons-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.trip__button{
+    cursor: pointer;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: #469acf;
+    box-shadow: 0 -3px #4682B4 inset;
+    transition: 0.2s;
+}
+
+.trip .price{
+    font-size: 30px;
+    font-weight: bold;
+}
 .trip .icon-conditions {
     margin-top: 10px;
     display: flex;
@@ -150,6 +188,12 @@ h2 {
 }
 
 .form-add-trip form {
+    width: 500px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.form-profile form {
     width: 500px;
     margin: 0 auto;
     padding-top: 20px;
