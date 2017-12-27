@@ -4,6 +4,6 @@ from .models import Trip
 from .models import Review
 
 
-def post_list(request):
+def travelers_list(request):
     travelers = Traveler.objects.order_by('surname')
     return render(request, 'test.html', {'travelers': travelers})
