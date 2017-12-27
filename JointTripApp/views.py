@@ -13,6 +13,9 @@ def index(request):
     trips = Trip.objects.all()
     return render(request, 'JointTripApp/index.html', {
         "trips": trips
-       # 'user': auth.get_user(request)
+        # 'user': auth.get_user(request)
     })
 
+
+def signin(request):
+    return render(request, 'JointTripApp/signin.html')
