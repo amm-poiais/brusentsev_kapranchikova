@@ -60,11 +60,23 @@
                     </div>
                     <div class="wrap-icons-button">
                         <div class="icon-conditions">
-                            <div class="icon talk allow"></div>
-                            <div class="icon pets"></div>
-                            <div class="icon smoke"></div>
+                            {% if trip.talk %}
+                                <div class="icon talk allow"></div>
+                            {% else %}
+                                <div class="icon talk"></div>
+                            {% endif %}
+                            {% if trip.pets %}
+                                <div class="icon pets allow"></div>
+                            {% else %}
+                                <div class="icon pets"></div>
+                            {% endif %}
+                            {% if trip.smoke %}
+                                <div class="icon smoke allow"></div>
+                            {% else %}
+                                <div class="icon smoke"></div>
+                            {% endif %}
                         </div>
-                        <a class="trip__button"  href="#">Присоединиться</a>
+                        <a class="trip__button" href="#">Присоединиться</a>
                     </div>
 
                 </div>

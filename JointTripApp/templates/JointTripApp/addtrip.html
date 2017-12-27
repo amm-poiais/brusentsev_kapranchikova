@@ -10,38 +10,44 @@
 </head>
 <body>
 <div class="form-add-trip">
-    <form class="form-horizontal" role="form" method="POST">
+    <form class="form-horizontal" role="form" method="POST">{% csrf_token %}
 
         <div class="form-group">
             <label for="inputFrom" class="col-sm-2 control-label">Откуда</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Откуда" name="from">
+                <input type="text" class="form-control" placeholder="Откуда" name="departure">
             </div>
         </div>
 
         <div class="form-group">
             <label for="inputTO" class="col-sm-2 control-label">Куда</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Куда" name="to">
+                <input type="text" class="form-control" placeholder="Куда" name="arrival">
             </div>
         </div>
         <div class="form-group">
             <label for="inputFrom" class="col-sm-2 control-label">Места</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Кол-во мест" name="count">
+                <input type="text" class="form-control" placeholder="Кол-во мест" name="seats">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputFrom" class="col-sm-2 control-label">Цена</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Цена" name="price">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="conditions"> Можно животных
+                        <input type="checkbox" name="pets"> Можно животных
                     </label>
                     <label>
-                        <input type="checkbox" name="conditions"> Можно курить
+                        <input type="checkbox" name="smoke"> Можно курить
                     </label>
                     <label>
-                        <input type="checkbox" name="conditions"> Буду рад поболтать
+                        <input type="checkbox" name="talk"> Буду рад поболтать
                     </label>
                 </div>
             </div>
