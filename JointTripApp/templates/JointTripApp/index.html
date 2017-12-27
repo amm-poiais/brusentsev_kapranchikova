@@ -6,7 +6,6 @@
     <title>JointTrip</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
 
-
     <link rel="stylesheet" href="{% static 'css/libs/datepicker/datepicker.min.css'%}">
     <script src="{% static 'js/libs/jquery-3.2.1.min.js'%}"></script>
     <script src="{% static 'js/libs/datepicker.min.js'%}"></script>
@@ -44,18 +43,20 @@
 
             <div class="new-trips">
                 <h2>Поездки</h2>
+                {% for trip in trips %}
                 <div class="trip">
                     <div class="title">
-                        <a href="">Воронеж-Москва</a>
+                        <a href="">{{ trip.departure }} - {{ trip.arrival }}</a>
                     </div>
-                    <div class="description">Поеду через Мурманск. Машина хорошая. Я хороший</div>
-                    <div class="time"></div>
+                    <div class="description">{{ trip.comment }}</div>
+                    <div class="time">{{ trip.start_time }}</div>
                     <div class="icon-conditions">
                         <div class="icon talk"></div>
                         <div class="icon pets"></div>
                         <div class="icon smoke"></div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
 

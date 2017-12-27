@@ -21,5 +21,5 @@ from JointTripApp import views
 
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'', views.main),
+    url(r'', include('JointTripApp.urls')),
 ]
