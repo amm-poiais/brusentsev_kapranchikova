@@ -8,9 +8,18 @@ from .models import Trip
 from .models import Review
 
 
-# def post_list(request):
+# def travelers_list(request):
 #     travelers = Traveler.objects.order_by('surname')
 #     return render(request, 'test.html', {'travelers': travelers})
 
-def main(request):
-    return render(request, 'JointTripApp/index.html')
+
+def index(request):
+    trips = Trip.objects.all()
+    return render(request, 'JointTripApp/index.html', {
+        "trips": trips
+        # 'user': auth.get_user(request)
+    })
+
+
+def signin(request):
+    return render(request, 'JointTripApp/signin.html')
