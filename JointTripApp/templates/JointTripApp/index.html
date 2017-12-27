@@ -1,0 +1,66 @@
+{% load staticfiles  %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JointTrip</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'css/libs/datepicker/datepicker.min.css'%}">
+    <script src="{% static 'js/libs/jquery-3.2.1.min.js'%}"></script>
+    <script src="{% static 'js/libs/datepicker.min.js'%}"></script>
+
+    <script src="{% static 'js/libs/i18n/datepicker.ru.js'%}"></script>
+
+    <script src="{% static  'js/main.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="wrap-header">
+        <header class="header">
+{#            <div class="logo"></div>#}
+            <a class="header__button logo" href="#">JointTrip</a>
+            <a class="header__button" href="#">Войти</a>
+        </header>
+    </div>
+
+
+    <div class="wrap-content">
+        <div class="content">
+            <div class="filters">
+                <span>Найти поездку</span>
+                 <input type="text"
+                        id="datepicker"
+                        data-range="true"
+                        data-multiple-dates-separator=" - "
+                        data-language="ru"
+                        placeholder="Дата"
+                        class="datepicker-here filters__input"/>
+                 <input type="text" class="filters__input" placeholder="Откуда">
+                 <input type="text" class="filters__input" placeholder="Куда">
+                <a class="filters__button">Найти</a>
+            </div>
+
+            <div class="new-trips">
+                <h2>Поездки</h2>
+                <div class="trip">
+                    <div class="title">
+                        <a href="">Воронеж-Москва</a>
+                    </div>
+                    <div class="description">Поеду через Мурманск. Машина хорошая. Я хороший</div>
+                    <div class="time"></div>
+                    <div class="icon-conditions">
+                        <div class="icon talk"></div>
+                        <div class="icon pets"></div>
+                        <div class="icon smoke"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
