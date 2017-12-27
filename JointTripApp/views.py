@@ -23,3 +23,9 @@ def index(request):
 
 def signin(request):
     return render(request, 'JointTripApp/signin.html')
+
+def addtrip(request):
+    return render(request, 'JointTripApp/addtrip.html')
+
+def profile(request):
+    return render(request, 'JointTripApp/profile.html')
