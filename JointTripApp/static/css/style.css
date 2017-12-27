@@ -109,3 +109,9 @@ h2{
 .trip .icon-conditions .icon:first-child{
     margin-left: 0;
 }
+
+.form form {
+  width: 300px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
