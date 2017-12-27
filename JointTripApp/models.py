@@ -36,7 +36,7 @@ class Trip(models.Model):
     smoke = models.BooleanField(default=False)
     pets = models.BooleanField(default=False)
 
-    passengers = models.ManyToManyField('Traveler')
+    passengers = models.ManyToManyField('Traveler', blank=True)
 
 
 # отзыв
