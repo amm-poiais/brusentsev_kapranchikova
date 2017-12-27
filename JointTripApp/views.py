@@ -40,3 +40,10 @@ def signin(request):
 def signout(request):
     auth.logout(request)
     return redirect('/')
+
+def addtrip(request):
+    return render(request, 'JointTripApp/addtrip.html')
+
+
+def profile(request):
+    return render(request, 'JointTripApp/profile.html')
