@@ -13,11 +13,17 @@ from .models import Review
 
 
 def index(request):
-    trips = Trip.objects.all()
-    return render(request, 'JointTripApp/index.html', {
-        "trips": trips
-        # 'user': auth.get_user(request)
-    })
+    if request.GET:
+        stringdate = request.GET.get('date', '')
+        # datetime = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
+        departure = request.GET.get('departure', '')
+        arrival = request.GET.get('arrival', '')
+    else:
+        trips = Trip.objects.all()
+        return render(request, 'JointTripApp/index.html', {
+            "trips": trips
+            # 'user': auth.get_user(request)
+        })
 
 
 def signin(request):
@@ -41,9 +47,16 @@ def signout(request):
     auth.logout(request)
     return redirect('/')
 
+
 def addtrip(request):
-    return render(request, 'JointTripApp/addtrip.html')
+    if request.user.is_authenticated:
+        return render(request, 'JointTripApp/addtrip.html')
+    else:
+        return render(request, 'JointTripApp/signin.html')
 
 
 def profile(request):
-    return render(request, 'JointTripApp/profile.html')
+    if request.user.is_authenticated:
+        return render(request, 'JointTripApp/profile.html')
+    else:
+        return render(request, 'JointTripApp/signin.html')
