@@ -1,4 +1,4 @@
-{% load staticfiles  %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,49 +6,48 @@
     <title>JointTrip</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
 
-    <link rel="stylesheet" href="{% static 'css/libs/datepicker/datepicker.min.css'%}">
-    <script src="{% static 'js/libs/jquery-3.2.1.min.js'%}"></script>
-    <script src="{% static 'js/libs/datepicker.min.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'css/libs/datepicker/datepicker.min.css' %}">
+    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/libs/datepicker.min.js' %}"></script>
 
-    <script src="{% static 'js/libs/i18n/datepicker.ru.js'%}"></script>
+    <script src="{% static 'js/libs/i18n/datepicker.ru.js' %}"></script>
 
-    <script src="{% static  'js/main.js'%}"></script>
+    <script src="{% static  'js/main.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="wrap-header">
-        <header class="header">
-            <a class="header__button logo" href="#">JointTrip</a>
-            {% if user.is_authenticated %}
-                <a class="header__button"  href="/profile">Профиль</a>
-                <a class="header__button"  href="/signout">Выйти</a>
-            {% else %}
-                <a class="header__button"  href="/signin">Войти</a>
-            {% endif %}
-        </header>
-    </div>
+<div class="wrap-header">
+    <header class="header">
+        <a class="header__button logo" href="#">JointTrip</a>
+        {% if user.is_authenticated %}
+            <a class="header__button" href="/profile">Профиль</a>
+            <a class="header__button" href="/signout">Выйти</a>
+        {% else %}
+            <a class="header__button" href="/signin">Войти</a>
+        {% endif %}
+    </header>
+</div>
 
 
+<div class="wrap-content">
+    <div class="content">
+        <div class="filters">
+            <span>Найти поездку</span>
+            <input type="text"
+                   id="datepicker"
+                   data-range="true"
+                   data-multiple-dates-separator=" - "
+                   data-language="ru"
+                   placeholder="Дата"
+                   class="datepicker-here filters__input"/>
+            <input type="text" class="filters__input" id="departure" placeholder="Откуда">
+            <input type="text" class="filters__input" id="arrive" placeholder="Куда">
+            <a class="filters__button" id="find">Найти</a>
+        </div>
 
-    <div class="wrap-content">
-        <div class="content">
-            <div class="filters">
-                <span>Найти поездку</span>
-                 <input type="text"
-                        id="datepicker"
-                        data-range="true"
-                        data-multiple-dates-separator=" - "
-                        data-language="ru"
-                        placeholder="Дата"
-                        class="datepicker-here filters__input"/>
-                 <input type="text" class="filters__input" id="departure" placeholder="Откуда">
-                 <input type="text" class="filters__input" id="arrive" placeholder="Куда">
-                <a class="filters__button" id="find">Найти</a>
-            </div>
-
-            <div class="new-trips">
-                <h2>Поездки</h2>
-                {% for pair in triplist %}
+        <div class="new-trips">
+            <h2>Поездки</h2>
+            {% for pair in triplist %}
                 <div class="trip">
                     <div class="title">
                         {{ pair.key.departure }} - {{ pair.key.arrival }}
@@ -56,7 +55,7 @@
                     </div>
                     <div class="wrap-price-comm">
                         <div class="description">{{ pair.key.comment }}</div>
-                        <div class="price">{{pair.key.price }}p.</div>
+                        <div class="price">{{ pair.key.price }}p.</div>
                     </div>
                     <div class="wrap-icons-button">
                         <div class="icon-conditions">
@@ -76,21 +75,21 @@
                                 <div class="icon smoke"></div>
                             {% endif %}
                         </div>
-                        {% if pair.value is 'user' %}
+                        {% if pair.value == 'user' %}
                             <a class="trip__button" href="/join?id={{ trip.trip_id }}">Отсоединиться</a>
-                        {% elif  pair.value is 'none' %}
-                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоединиться</a>
-                        {% else %}
+                        {% elif  pair.value == 'owner' %}
                             <a class="trip__button" href="/join?id={{ trip.trip_id }}">Удалить</a>
+                        {% else %}
+                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоедениться</a>
                         {% endif %}
                     </div>
 
                 </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
-
     </div>
+
+</div>
 
 
 </body>

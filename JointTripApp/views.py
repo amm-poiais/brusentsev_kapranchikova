@@ -41,9 +41,9 @@ def index(request):
             trips = Trip.objects.all()
             triplist = []
             for trip in trips:
-                if trip.passengers.all().filter(user=auth.get_user(request)) is not None:
+                if trip.passengers.all().filter(user=auth.get_user(request)).count() != 0:
                     triplist.append(Pair(trip, 'user'))
-                elif trip.objects.filter(owner__user=auth.get_user(request)) is not None:
+                elif trip.owner.user==auth.get_user(request):
                     triplist.append(Pair(trip, 'owner'))
                 else:
                     triplist.append(Pair(trip, 'none'))
