@@ -17,7 +17,6 @@ from .models import Review
 def index(request):
     if request.GET:
         stringdate = request.GET.get('date', '')
-        # datetime = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
         departure = request.GET.get('departure', '')
         arrival = request.GET.get('arrival', '')
         trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
@@ -41,27 +40,24 @@ def index(request):
             trips = Trip.objects.all()
             triplist = []
             for trip in trips:
-                if trip.passengers.all().filter(user=auth.get_user(request)) is not None:
+                if trip.passengers.all().filter(user=auth.get_user(request)).count() != 0:
                     triplist.append(Pair(trip, 'user'))
-                elif trip.objects.filter(owner__user=auth.get_user(request)) is not None:
+                elif trip.owner.user==auth.get_user(request):
                     triplist.append(Pair(trip, 'owner'))
                 else:
                     triplist.append(Pair(trip, 'none'))
 
             return render(request, 'JointTripApp/index.html', {
                 "triplist": triplist
-
-                # 'user': auth.get_user(request)
             })
         else:
             trips = Trip.objects.all()
-            tripsdict = defaultdict(str)
+            triplist = []
             for trip in trips:
-                tripsdict[trip] += 'none'
-            return render(request, 'JointTripApp/index.html', {
-                "tripsdict": tripsdict
+                triplist.append(Pair(trip, 'none'))
 
-                # 'user': auth.get_user(request)
+            return render(request, 'JointTripApp/index.html', {
+                "triplist": triplist
             })
 
 
