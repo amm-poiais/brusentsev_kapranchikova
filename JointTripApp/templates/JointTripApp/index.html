@@ -48,40 +48,40 @@
 
             <div class="new-trips">
                 <h2>Поездки</h2>
-                {% for trip in trips %}
+                {% for pair in triplist %}
                 <div class="trip">
                     <div class="title">
-                        {{ trip.departure }} - {{ trip.arrival }}
-                        <div class="time">{{ trip.start_time }}</div>
+                        {{ pair.key.departure }} - {{ pair.key.arrival }}
+                        <div class="time">{{ pair.key.start_time }}</div>
                     </div>
                     <div class="wrap-price-comm">
-                        <div class="description">{{ trip.comment }}</div>
-                        <div class="price">{{ trip.price }}p.</div>
+                        <div class="description">{{ pair.key.comment }}</div>
+                        <div class="price">{{pair.key.price }}p.</div>
                     </div>
                     <div class="wrap-icons-button">
                         <div class="icon-conditions">
-                            {% if trip.talk %}
+                            {% if pair.key.talk %}
                                 <div class="icon talk allow"></div>
                             {% else %}
                                 <div class="icon talk"></div>
                             {% endif %}
-                            {% if trip.pets %}
+                            {% if pair.key.pets %}
                                 <div class="icon pets allow"></div>
                             {% else %}
                                 <div class="icon pets"></div>
                             {% endif %}
-                            {% if trip.smoke %}
+                            {% if pair.key.smoke %}
                                 <div class="icon smoke allow"></div>
                             {% else %}
                                 <div class="icon smoke"></div>
                             {% endif %}
                         </div>
-                        {% if user.is_authenticated %}
-{#                            {% if trip.objects.filter(passengers.filter(user=user)).exists %}#}
-                                <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоединиться</a>
-{#                            {% else %}#}
-{#                                <a class="trip__button" href="/join?id={{ trip.trip_id }}">Отсоединиться</a>#}
-{#                            {% endif %}#}
+                        {% if pair.value is 'user' %}
+                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Отсоединиться</a>
+                        {% elif  pair.value is 'none' %}
+                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоединиться</a>
+                        {% else %}
+                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Удалить</a>
                         {% endif %}
                     </div>
 

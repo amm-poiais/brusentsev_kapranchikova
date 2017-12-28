@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template.context_processors import csrf
 
+from JointTripApp.entities import Pair
 from .models import Traveler
 from .models import Trip
 from .models import Review
@@ -20,19 +21,48 @@ def index(request):
         departure = request.GET.get('departure', '')
         arrival = request.GET.get('arrival', '')
         trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
-        tripsdict = defaultdict(trips)
+        tripsdict = defaultdict(Trip)
+        for trip in trips:
+            if trip.objects.filter(passengers__user=auth.get_user(request)).exists():
+                tripsdict[trip].append('user')
+            elif trip.objects.filter(owner__user=auth.get_user(request)).exists():
+                tripsdict[trip].append('owner')
+            else:
+                tripsdict[trip].append('none')
+
 
         return render(request, 'JointTripApp/index.html', {
-            "trips": trips
+            "tripsdict": tripsdict
 
             # 'user': auth.get_user(request)
         })
     else:
-        trips = Trip.objects.all()
-        return render(request, 'JointTripApp/index.html', {
-            "trips": trips
-            # 'user': auth.get_user(request)
-        })
+        if request.user.is_authenticated:
+            trips = Trip.objects.all()
+            triplist = []
+            for trip in trips:
+                if trip.passengers.all().filter(user=auth.get_user(request)) is not None:
+                    triplist.append(Pair(trip, 'user'))
+                elif trip.objects.filter(owner__user=auth.get_user(request)) is not None:
+                    triplist.append(Pair(trip, 'owner'))
+                else:
+                    triplist.append(Pair(trip, 'none'))
+
+            return render(request, 'JointTripApp/index.html', {
+                "triplist": triplist
+
+                # 'user': auth.get_user(request)
+            })
+        else:
+            trips = Trip.objects.all()
+            tripsdict = defaultdict(str)
+            for trip in trips:
+                tripsdict[trip] += 'none'
+            return render(request, 'JointTripApp/index.html', {
+                "tripsdict": tripsdict
+
+                # 'user': auth.get_user(request)
+            })
 
 
 def signin(request):
