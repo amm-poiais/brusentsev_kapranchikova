@@ -1,20 +1,16 @@
 import re
 
 import datetime
+
+from collections import defaultdict
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template.context_processors import csrf
-import timestring
 
 from .models import Traveler
 from .models import Trip
 from .models import Review
-
-
-# def travelers_list(request):
-#     travelers = Traveler.objects.order_by('surname')
-#     return render(request, 'test.html', {'travelers': travelers})
 
 
 def index(request):
@@ -23,8 +19,14 @@ def index(request):
         # datetime = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
         departure = request.GET.get('departure', '')
         arrival = request.GET.get('arrival', '')
-        trips = Trip.objects.filter(departure__contains=departure)
-        return HttpResponse(trips)
+        trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
+        tripsdict = defaultdict(trips)
+
+        return render(request, 'JointTripApp/index.html', {
+            "trips": trips
+
+            # 'user': auth.get_user(request)
+        })
     else:
         trips = Trip.objects.all()
         return render(request, 'JointTripApp/index.html', {
@@ -81,6 +83,19 @@ def addtrip(request):
 
 def profile(request):
     if request.user.is_authenticated:
-        return render(request, 'JointTripApp/profile.html')
+        trips = Trip.objects.filter(owner__user=auth.get_user(request))
+        return render(request, 'JointTripApp/profile.html', {
+            "trips": trips
+            # 'user': auth.get_user(request)
+        })
+    else:
+        return redirect('/signin.html')
+
+
+def join(request):
+    if request.user.is_authenticated:
+        Trip.objects.get(trip_id=request.GET.get('id')).passengers.add(Traveler.objects
+                                                                       .get(user=auth.get_user(request)))
+        return redirect('/')
     else:
         return render(request, 'JointTripApp/signin.html')

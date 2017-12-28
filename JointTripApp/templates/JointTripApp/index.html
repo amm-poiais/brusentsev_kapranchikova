@@ -51,7 +51,7 @@
                 {% for trip in trips %}
                 <div class="trip">
                     <div class="title">
-                        <a href="">{{ trip.departure }} - {{ trip.arrival }}</a>
+                        {{ trip.departure }} - {{ trip.arrival }}
                         <div class="time">{{ trip.start_time }}</div>
                     </div>
                     <div class="wrap-price-comm">
@@ -76,7 +76,13 @@
                                 <div class="icon smoke"></div>
                             {% endif %}
                         </div>
-                        <a class="trip__button" href="#">Присоединиться</a>
+                        {% if user.is_authenticated %}
+{#                            {% if trip.objects.filter(passengers.filter(user=user)).exists %}#}
+                                <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоединиться</a>
+{#                            {% else %}#}
+{#                                <a class="trip__button" href="/join?id={{ trip.trip_id }}">Отсоединиться</a>#}
+{#                            {% endif %}#}
+                        {% endif %}
                     </div>
 
                 </div>
