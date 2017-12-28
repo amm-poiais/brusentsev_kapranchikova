@@ -75,12 +75,14 @@
                                 <div class="icon smoke"></div>
                             {% endif %}
                         </div>
-                        {% if pair.value == 'user' %}
-                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Отсоединиться</a>
-                        {% elif  pair.value == 'owner' %}
-                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Удалить</a>
-                        {% else %}
-                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоедениться</a>
+                        {% if user.is_authenticated %}
+                            {% if pair.value == 'user' %}
+                                <a class="trip__button" href="/join?id={{ trip.trip_id }}">Отсоединиться</a>
+                            {% elif  pair.value == 'owner' %}
+                                <a class="trip__button" href="/join?id={{ trip.trip_id }}">Удалить</a>
+                            {% else %}
+                                <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоедениться</a>
+                            {% endif %}
                         {% endif %}
                     </div>
 
