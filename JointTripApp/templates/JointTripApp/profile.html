@@ -1,0 +1,108 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JointTrip</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/libs/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="wrap-header">
+    <header class="header">
+        <a class="header__button logo" href="/">JointTrip</a>
+        {% if user.is_authenticated %}
+            <a class="header__button"  href="/addtrip">Создать поездку</a>
+            <a class="header__button"  href="/signout">Выйти</a>
+        {% else %}
+            <a class="header__button"  href="/signin">Войти</a>
+        {% endif %}
+    </header>
+
+</div>
+
+<div class="wrap-content">
+    <div class="content">
+        <h2>Профиль</h2>
+        <div class="form-profile">
+            <form class="form-horizontal" role="form" method="POST">
+
+                <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Имя</label>
+                    <div class="col-sm-10">
+{#                        <input type="text" class="form-control" placeholder="Имя" name="name" disabled>#}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSurname" class="col-sm-2 control-label">Фамилиия</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Фамилия" name="surname" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputLogin" class="col-sm-2 control-label">Логин</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Логин" name="login" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputComment" class="col-sm-2 control-label">О себе</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="3" name="comment" readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success btn-sm">Сохранить</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">Созданные поездки</a></li>
+            <li><a href="#">Мои поездки</a></li>
+        </ul>
+        <div>
+            {% for trip in trips %}
+            <div class="trip">
+                <div class="title">
+                    <a href="">{{ trip.departure }} - {{ trip.arrival }}</a>
+                    <div class="time">{{ trip.start_time }}</div>
+                </div>
+                <div class="wrap-price-comm">
+                    <div class="description">{{ trip.comment }} </div>
+                    <div class="price">{{ trip.price }}</div>
+                </div>
+                <div class="wrap-icons-button">
+                        <div class="icon-conditions">
+                            {% if trip.talk %}
+                                <div class="icon talk allow"></div>
+                            {% else %}
+                                <div class="icon talk"></div>
+                            {% endif %}
+                            {% if trip.pets %}
+                                <div class="icon pets allow"></div>
+                            {% else %}
+                                <div class="icon pets"></div>
+                            {% endif %}
+                            {% if trip.smoke %}
+                                <div class="icon smoke allow"></div>
+                            {% else %}
+                                <div class="icon smoke"></div>
+                            {% endif %}
+                        </div>
+                    <button type="button" class="btn btn-danger">Удалить</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

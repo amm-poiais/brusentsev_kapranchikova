@@ -3,6 +3,10 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url('^signin', views.signin, name = 'signin'),
-    url('^signout', views.signout, name = 'signout')
+    url(r'index*', views.index, name='index'),
+    url('^signin', views.signin, name='signin'),
+    url('^signout', views.signout, name='signout'),
+    url('^profile', views.profile, name='profile'),
+    url('^addtrip', views.addtrip, name='addtrip'),
+    url(r'^join*', views.join)
 ]

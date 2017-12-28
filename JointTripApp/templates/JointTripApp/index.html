@@ -18,10 +18,9 @@
 <body>
     <div class="wrap-header">
         <header class="header">
-{#            <div class="logo"></div>#}
             <a class="header__button logo" href="#">JointTrip</a>
-
             {% if user.is_authenticated %}
+                <a class="header__button"  href="/profile">Профиль</a>
                 <a class="header__button"  href="/signout">Выйти</a>
             {% else %}
                 <a class="header__button"  href="/signin">Войти</a>
@@ -42,25 +41,50 @@
                         data-language="ru"
                         placeholder="Дата"
                         class="datepicker-here filters__input"/>
-                 <input type="text" class="filters__input" placeholder="Откуда">
-                 <input type="text" class="filters__input" placeholder="Куда">
-                <a class="filters__button">Найти</a>
+                 <input type="text" class="filters__input" id="departure" placeholder="Откуда">
+                 <input type="text" class="filters__input" id="arrive" placeholder="Куда">
+                <a class="filters__button" id="find">Найти</a>
             </div>
 
             <div class="new-trips">
                 <h2>Поездки</h2>
-                {% for trip in trips %}
+                {% for pair in triplist %}
                 <div class="trip">
                     <div class="title">
-                        <a href="">{{ trip.departure }} - {{ trip.arrival }}</a>
+                        {{ pair.key.departure }} - {{ pair.key.arrival }}
+                        <div class="time">{{ pair.key.start_time }}</div>
                     </div>
-                    <div class="description">{{ trip.comment }}</div>
-                    <div class="time">{{ trip.start_time }}</div>
-                    <div class="icon-conditions">
-                        <div class="icon talk"></div>
-                        <div class="icon pets"></div>
-                        <div class="icon smoke"></div>
+                    <div class="wrap-price-comm">
+                        <div class="description">{{ pair.key.comment }}</div>
+                        <div class="price">{{pair.key.price }}p.</div>
                     </div>
+                    <div class="wrap-icons-button">
+                        <div class="icon-conditions">
+                            {% if pair.key.talk %}
+                                <div class="icon talk allow"></div>
+                            {% else %}
+                                <div class="icon talk"></div>
+                            {% endif %}
+                            {% if pair.key.pets %}
+                                <div class="icon pets allow"></div>
+                            {% else %}
+                                <div class="icon pets"></div>
+                            {% endif %}
+                            {% if pair.key.smoke %}
+                                <div class="icon smoke allow"></div>
+                            {% else %}
+                                <div class="icon smoke"></div>
+                            {% endif %}
+                        </div>
+                        {% if pair.value is 'user' %}
+                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Отсоединиться</a>
+                        {% elif  pair.value is 'none' %}
+                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Присоединиться</a>
+                        {% else %}
+                            <a class="trip__button" href="/join?id={{ trip.trip_id }}">Удалить</a>
+                        {% endif %}
+                    </div>
+
                 </div>
                 {% endfor %}
             </div>
