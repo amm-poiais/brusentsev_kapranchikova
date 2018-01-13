@@ -4,37 +4,48 @@ import datetime
 
 from collections import defaultdict
 from django.contrib import auth
+from django.core.serializers import json
+from django.forms import model_to_dict
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template.context_processors import csrf
+from django.core import serializers
 
 from JointTripApp.entities import Pair
 from .models import Traveler
 from .models import Trip
 from .models import Review
+import json
 
 
 def index(request):
     if request.GET:
-        stringdate = request.GET.get('date', '')
-        departure = request.GET.get('departure', '')
-        arrival = request.GET.get('arrival', '')
-        trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
-        tripsdict = defaultdict(Trip)
-        for trip in trips:
-            if trip.objects.filter(passengers__user=auth.get_user(request)).exists():
-                tripsdict[trip].append('user')
-            elif trip.objects.filter(owner__user=auth.get_user(request)).exists():
-                tripsdict[trip].append('owner')
-            else:
-                tripsdict[trip].append('none')
+        if request.user.is_authenticated:
+            stringdate = request.GET.get('date', '')
+            departure = request.GET.get('departure', '')
+            arrival = request.GET.get('arrival', '')
+            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
+            triplist = []
+            for trip in trips:
+                if trip.passengers.all().filter(user=auth.get_user(request)).count() != 0:
+                    triplist.append(Pair(trip, 'user'))
+                elif trip.owner.user == auth.get_user(request):
+                    triplist.append(Pair(trip, 'owner'))
+                else:
+                    triplist.append(Pair(trip, 'none'))
 
+            return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
+        else:
+            stringdate = request.GET.get('date', '')
+            departure = request.GET.get('departure', '')
+            arrival = request.GET.get('arrival', '')
+            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
+            triplist = []
+            for trip in trips:
+                triplist.append(Pair(serializers.serialize('json', [trip]), 'none'))
 
-        return render(request, 'JointTripApp/index.html', {
-            "tripsdict": tripsdict
-
-            # 'user': auth.get_user(request)
-        })
+            return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
     else:
         if request.user.is_authenticated:
             trips = Trip.objects.all()
@@ -42,7 +53,7 @@ def index(request):
             for trip in trips:
                 if trip.passengers.all().filter(user=auth.get_user(request)).count() != 0:
                     triplist.append(Pair(trip, 'user'))
-                elif trip.owner.user==auth.get_user(request):
+                elif trip.owner.user == auth.get_user(request):
                     triplist.append(Pair(trip, 'owner'))
                 else:
                     triplist.append(Pair(trip, 'none'))
@@ -125,3 +136,10 @@ def join(request):
         return redirect('/')
     else:
         return render(request, 'JointTripApp/signin.html')
+
+
+def dumper(obj):
+    try:
+        return obj.toJSON()
+    except:
+        return obj.__dict__
