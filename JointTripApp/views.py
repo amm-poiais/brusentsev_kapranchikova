@@ -29,11 +29,11 @@ def index(request):
             triplist = []
             for trip in trips:
                 if trip.passengers.all().filter(user=auth.get_user(request)).count() != 0:
-                    triplist.append(Pair(trip, 'user'))
+                    triplist.append(Pair(serializers.serialize('json', [trip]), 'user'))
                 elif trip.owner.user == auth.get_user(request):
-                    triplist.append(Pair(trip, 'owner'))
+                    triplist.append(Pair(serializers.serialize('json', [trip]), 'owner'))
                 else:
-                    triplist.append(Pair(trip, 'none'))
+                    triplist.append(Pair(serializers.serialize('json', [trip]), 'none'))
 
             return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
         else:
