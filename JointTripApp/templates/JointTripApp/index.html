@@ -40,8 +40,18 @@
                    data-language="ru"
                    placeholder="Дата"
                    class="datepicker-here filters__input"/>
-            <input type="text" class="filters__input" id="departure" placeholder="Откуда">
-            <input type="text" class="filters__input" id="arrive" placeholder="Куда">
+{#            <input type="text" class="filters__input" id="departure" placeholder="Откуда">#}
+            <select id="departure">
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+            {% endfor %}
+            </select>
+            <select id="arrive">
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+            {% endfor %}
+            </select>
+{#            <input type="text" class="filters__input" id="arrive" placeholder="Куда">#}
             <a class="filters__button" id="find">Найти</a>
         </div>
 
