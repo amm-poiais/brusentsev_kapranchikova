@@ -13,7 +13,7 @@ from django.template.context_processors import csrf
 from django.core import serializers
 
 from JointTripApp.entities import Pair
-from .models import Traveler
+from .models import Traveler, City
 from .models import Trip
 from .models import Review
 import json
@@ -58,8 +58,10 @@ def index(request):
                 else:
                     triplist.append(Pair(trip, 'none'))
 
+            cities = City.objects.all()
             return render(request, 'JointTripApp/index.html', {
-                "triplist": triplist
+                "triplist": triplist,
+                "cities": cities
             })
         else:
             trips = Trip.objects.all()
@@ -67,8 +69,10 @@ def index(request):
             for trip in trips:
                 triplist.append(Pair(trip, 'none'))
 
+            cities = City.objects.all()
             return render(request, 'JointTripApp/index.html', {
-                "triplist": triplist
+                "triplist": triplist,
+                "cities": cities
             })
 
 
