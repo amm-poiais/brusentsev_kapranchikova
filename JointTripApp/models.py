@@ -45,3 +45,7 @@ class Review(models.Model):
     to_whom = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='to_whom_review')
     mark = models.IntegerField(default=0)
     comment = models.CharField(max_length=255)
+
+
+class City(models.Model):
+    name = models.CharField(max_length=255)

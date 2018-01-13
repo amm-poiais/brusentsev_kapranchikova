@@ -156,19 +156,20 @@ h2 {
     background-position: 0 0;
 }
 .trip .icon-conditions .icon.pets{
-    background-position: 96px 0;
+    background-position: 48px 0;
+
 }
 .trip .icon-conditions .icon.smoke{
-    background-position: 48px 0;
+    background-position: 96px 0;
 }
 .trip .icon-conditions .icon.talk.allow{
     background-position: 0 48px;
 }
 .trip .icon-conditions .icon.pets.allow{
-    background-position: 96px 48px;
+    background-position: 48px 48px;
 }
 .trip .icon-conditions .icon.smoke.allow{
-    background-position: 48px 48px;
+    background-position: 96px 48px;
 }
 
 .trip .icon-conditions .icon:first-child {
