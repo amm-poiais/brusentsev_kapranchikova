@@ -42,12 +42,12 @@
                    placeholder="Дата"
                    class="datepicker-here filters__input"/>
 {#            <input type="text" class="filters__input" id="departure" placeholder="Откуда">#}
-            <select id="departure">
+            <select id="departure" class="filters__input">
                 {% for city in cities %}
                     <option>{{ city.name }}</option>
             {% endfor %}
             </select>
-            <select id="arrive">
+            <select id="arrive" class="filters__input">
                 {% for city in cities %}
                     <option>{{ city.name }}</option>
             {% endfor %}
@@ -89,11 +89,11 @@
                         </div>
                         {% if user.is_authenticated %}
                             {% if pair.value == 'user' %}
-                                <div class="trip__button"  onclick="actTrip()">Отсоединиться</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, {{ pair.value }})">Отсоединиться</div>
                             {% elif  pair.value == 'owner' %}
-                                <div class="trip__button"  onclick="actTrip()">Удалить</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, {{ pair.value }})">Удалить</div>
                             {% else %}
-                                <div class="trip__button"  onclick="actTrip()">Присоедениться</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, {{ pair.value }})">Присоедениться</div>
                             {% endif %}
                         {% endif %}
                     </div>

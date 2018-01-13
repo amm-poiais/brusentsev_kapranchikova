@@ -53,7 +53,7 @@ $(document).ready(function () {
 
                     if ($('*').is('.profile')) {
 
-                        $(".new-trips .trip .wrap-icons-button").append('<div class="trip__button" onclick="actTrip()"></div>');
+                        $(".new-trips .trip .wrap-icons-button").append('<div class="trip__button" onclick="actTrip('+data[i].key[0].pk+', '+data[i].value+')"></div>');
                         $(".trip .trip__button").data("id_trip", data[i].key[0].pk);
 
                         if (data[i].value = "user") {
