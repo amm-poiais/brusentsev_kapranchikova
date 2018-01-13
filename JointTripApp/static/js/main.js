@@ -53,17 +53,17 @@ $(document).ready(function () {
 
                     if ($('*').is('.profile')) {
 
-                        $(".new-trips .trip .wrap-icons-button").append('<div class="trip__button" onclick="actTrip('+data[i].key[0].pk+', '+data[i].value+')"></div>');
+                        $(".new-trips .trip .wrap-icons-button").append('<div class="trip__button" onclick="actTrip('+data[i].key[0].pk+','+data[i].value+')"></div>');
                         $(".trip .trip__button").data("id_trip", data[i].key[0].pk);
 
-                        if (data[i].value = "user") {
+                        if (data[i].value == "user") {
                             $(".trip .trip__button").append("Отсоединиться");
                             // $(".trip .trip__button").addClass("unJoin");
 
-                        } else if (data[i].value = "owner") {
+                        } else if (data[i].value == "owner") {
                             $(".trip .trip__button").append("Удалить");
                             // $(".trip .trip__button").addClass("remove");
-                        } else if (data[i].value = "none") {
+                        } else if (data[i].value == "none") {
                             $(".trip .trip__button").append("Присоединиться");
                             // $(".trip .trip__button").addClass("join");
                         }
@@ -77,6 +77,12 @@ $(document).ready(function () {
     });
 
 
+    $(".myJoinTrip").click(function () {
 
+    });
+
+    $(".createdTrip").click(function () {
+
+    });
 
 });
