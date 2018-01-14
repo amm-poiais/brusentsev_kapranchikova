@@ -156,8 +156,26 @@ def addtrip(request):
 
 def profile(request):
     if request.user.is_authenticated:
+        # обработка нажатия на поездку - присоединение, покинуть, удалить
         if request.POST:
-            print('postttttttttttt')
+            if request.user.is_authenticated:
+                id_trip = request.POST.get('id_trip', '')
+                type_request = request.POST.get('type', '')
+                if type_request == 'none':
+                    trip = Trip.objects.get(trip_id=id_trip)
+                    trip.passengers.add(Traveler.objects.get(user=auth.get_user(request)))
+                    trip.save()
+                    return HttpResponse("user")
+                elif type_request == 'user':
+                    trip = Trip.objects.get(trip_id=id_trip)
+                    trip.passengers.remove(Traveler.objects.get(user=auth.get_user(request)))
+                    trip.save()
+                    return HttpResponse("none")
+                elif type_request == 'owner':
+                    trip = Trip.objects.get(trip_id=id_trip)
+                    trip.delete()
+                    return HttpResponse("deleted")
+        # обработка выбора вкладки
         elif request.GET:
             typeget = request.GET.get('type', '')
             if typeget == 'mytrip':
