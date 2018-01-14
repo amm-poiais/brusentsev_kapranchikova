@@ -11,6 +11,7 @@
     <script src="{% static 'js/libs/datepicker.min.js' %}"></script>
 
     <script src="{% static 'js/libs/i18n/datepicker.ru.js' %}"></script>
+    <script src="{% static 'js/libs/jquery.cookie.js' %}"></script>
 
     <script src="{% static  'js/main.js' %}"></script>
 
@@ -42,12 +43,12 @@
                    placeholder="Дата"
                    class="datepicker-here filters__input"/>
 {#            <input type="text" class="filters__input" id="departure" placeholder="Откуда">#}
-            <select id="departure">
+            <select id="departure" class="filters__input">
                 {% for city in cities %}
                     <option>{{ city.name }}</option>
             {% endfor %}
             </select>
-            <select id="arrive">
+            <select id="arrive" class="filters__input">
                 {% for city in cities %}
                     <option>{{ city.name }}</option>
             {% endfor %}
@@ -89,11 +90,11 @@
                         </div>
                         {% if user.is_authenticated %}
                             {% if pair.value == 'user' %}
-                                <div class="trip__button"  onclick="actTrip()">Отсоединиться</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'user')">Отсоединиться</div>
                             {% elif  pair.value == 'owner' %}
-                                <div class="trip__button"  onclick="actTrip()">Удалить</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'owner' )">Удалить</div>
                             {% else %}
-                                <div class="trip__button"  onclick="actTrip()">Присоедениться</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'none')">Присоедениться</div>
                             {% endif %}
                         {% endif %}
                     </div>

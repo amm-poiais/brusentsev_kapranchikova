@@ -20,7 +20,12 @@ import json
 
 
 def index(request):
-    if request.GET:
+    if request.POST:
+        if request.user.is_authenticated:
+            id_trip = request.POST.get('id_trip', '')
+            type_request = request.POST.get('type', '')
+            print(id_trip, type_request)
+    elif request.GET:
         if request.user.is_authenticated:
             stringdate = request.GET.get('date', '')
             departure = request.GET.get('departure', '')
@@ -125,8 +130,10 @@ def addtrip(request):
 def profile(request):
     if request.user.is_authenticated:
         trips = Trip.objects.filter(owner__user=auth.get_user(request))
+        traveler = Traveler.objects.filter(user=auth.get_user(request))[0]
         return render(request, 'JointTripApp/profile.html', {
-            "trips": trips
+            "trips": trips,
+            "traveler": traveler
             # 'user': auth.get_user(request)
         })
     else:
