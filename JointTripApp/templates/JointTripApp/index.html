@@ -90,11 +90,11 @@
                         </div>
                         {% if user.is_authenticated %}
                             {% if pair.value == 'user' %}
-                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'user')">Отсоединиться</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'user', this)">Отсоединиться</div>
                             {% elif  pair.value == 'owner' %}
-                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'owner' )">Удалить</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'owner' , this)">Удалить</div>
                             {% else %}
-                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'none')">Присоедениться</div>
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'none', this)">Присоедениться</div>
                             {% endif %}
                         {% endif %}
                     </div>
