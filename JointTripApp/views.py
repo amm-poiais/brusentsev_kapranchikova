@@ -24,7 +24,20 @@ def index(request):
         if request.user.is_authenticated:
             id_trip = request.POST.get('id_trip', '')
             type_request = request.POST.get('type', '')
-            print(id_trip, type_request)
+            if type_request == 'none':
+                trip = Trip.objects.get(trip_id=id_trip)
+                trip.passengers.add(Traveler.objects.get(user=auth.get_user(request)))
+                trip.save()
+                return HttpResponse("user")
+            elif type_request == 'user':
+                trip = Trip.objects.get(trip_id=id_trip)
+                trip.passengers.remove(Traveler.objects.get(user=auth.get_user(request)))
+                trip.save()
+                return HttpResponse("none")
+            elif type_request == 'owner':
+                trip = Trip.objects.get(trip_id=id_trip)
+                trip.delete()
+                return HttpResponse("deleted")
     elif request.GET:
         if request.user.is_authenticated:
             stringdate = request.GET.get('date', '')
@@ -120,7 +133,7 @@ def addtrip(request):
                     talk=bool(re.match('on', talk)), comment=comment, price=price,
                     start_time=datetime.datetime.now())
         trip.save()
-
+        return redirect('/profile.html')
     elif request.user.is_authenticated:
         return render(request, 'JointTripApp/addtrip.html')
     else:
