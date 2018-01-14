@@ -145,7 +145,10 @@ def addtrip(request):
         trip.save()
         return redirect('/profile.html')
     elif request.user.is_authenticated:
-        return render(request, 'JointTripApp/addtrip.html')
+        cities = City.objects.all()
+        return render(request, 'JointTripApp/addtrip.html', {
+                "cities": cities
+            })
     else:
         return render(request, 'JointTripApp/signin.html')
 
