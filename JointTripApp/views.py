@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template.context_processors import csrf
 from django.core import serializers
-
+from datetime import datetime, timedelta
 from JointTripApp.entities import Pair
 from .models import Traveler, City
 from .models import Trip
@@ -20,6 +20,7 @@ import json
 
 
 def index(request):
+    # обработка нажатия на поездку - присоединение, покинуть, удалить
     if request.POST:
         if request.user.is_authenticated:
             id_trip = request.POST.get('id_trip', '')
@@ -38,13 +39,29 @@ def index(request):
                 trip = Trip.objects.get(trip_id=id_trip)
                 trip.delete()
                 return HttpResponse("deleted")
+    # обработка поиска
     elif request.GET:
-        if request.user.is_authenticated:
-            stringdate = request.GET.get('date', '')
-            departure = request.GET.get('departure', '')
-            arrival = request.GET.get('arrival', '')
+        stringdate = request.GET.get('date', '')
+        departure = request.GET.get('departure', '')
+        arrival = request.GET.get('arrival', '')
+
+        if " - " in stringdate:
+            firstdatestr, lastdatestr = stringdate.split(" - ")
+            firstdate = datetime.strptime(firstdatestr, '%d.%m.%Y')
+            lastdate = datetime.strptime(lastdatestr, '%d.%m.%Y')
+            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival,
+                                        start_time__range=[firstdate, lastdate])
+        elif len(stringdate) != 0:
+            firstdate = datetime.strptime(stringdate, '%d.%m.%Y')
+            lastdate = firstdate + timedelta(days=1) - timedelta(minutes=1)
+            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival,
+                                        start_time__range=[firstdate, lastdate])
+        else:
             trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
-            triplist = []
+
+        triplist = []
+
+        if request.user.is_authenticated:
             for trip in trips:
                 if trip.passengers.all().filter(user=auth.get_user(request)).count() != 0:
                     triplist.append(Pair(serializers.serialize('json', [trip]), 'user'))
@@ -52,18 +69,11 @@ def index(request):
                     triplist.append(Pair(serializers.serialize('json', [trip]), 'owner'))
                 else:
                     triplist.append(Pair(serializers.serialize('json', [trip]), 'none'))
-
-            return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
         else:
-            stringdate = request.GET.get('date', '')
-            departure = request.GET.get('departure', '')
-            arrival = request.GET.get('arrival', '')
-            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
-            triplist = []
             for trip in trips:
                 triplist.append(Pair(serializers.serialize('json', [trip]), 'none'))
 
-            return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
+        return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
     else:
         if request.user.is_authenticated:
             trips = Trip.objects.all()
