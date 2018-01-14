@@ -32,7 +32,7 @@ $.ajaxSetup({
 
 
     actTrip = function (id_trip, type) {
-        $.post("/", {id_trip: id_trip, type: type})
+        $.post("", {id_trip: id_trip, type: type})
             .done(function (data) {
                 console.log("Data Loaded: " + data);
             });
