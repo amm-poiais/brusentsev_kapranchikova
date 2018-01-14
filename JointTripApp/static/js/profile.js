@@ -5,7 +5,7 @@ $(document).ready(function () {
         $(".createdTrip").removeClass("active");
         $.get("/profile", {type: "mytrip"})
             .done(function (data) {
-                // console.log(data);
+                 console.log(data);
             });
     });
 
@@ -14,7 +14,7 @@ $(document).ready(function () {
         $(".createdTrip").addClass("active");
         $.get("/profile", {type: "createdtrip"})
             .done(function (data) {
-                // console.log(data);
+                 console.log(data);
             });
     });
 

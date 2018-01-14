@@ -74,6 +74,7 @@ def index(request):
                 triplist.append(Pair(serializers.serialize('json', [trip]), 'none'))
 
         return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
+    # обработка первоначальной страницы
     else:
         if request.user.is_authenticated:
             trips = Trip.objects.all()
@@ -155,13 +156,30 @@ def addtrip(request):
 
 def profile(request):
     if request.user.is_authenticated:
-        trips = Trip.objects.filter(owner__user=auth.get_user(request))
-        traveler = Traveler.objects.filter(user=auth.get_user(request))[0]
-        return render(request, 'JointTripApp/profile.html', {
-            "trips": trips,
-            "traveler": traveler
-            # 'user': auth.get_user(request)
-        })
+        if request.POST:
+            print('postttttttttttt')
+        elif request.GET:
+            typeget = request.GET.get('type', '')
+            if typeget == 'mytrip':
+                trips = Trip.objects.filter(passengers__user=auth.get_user(request))
+                triplist = []
+                for trip in trips:
+                    triplist.append(serializers.serialize('json', [trip]))
+                return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
+            elif typeget == 'createdtrip':
+                trips = Trip.objects.filter(owner__user=auth.get_user(request))
+                triplist = []
+                for trip in trips:
+                    triplist.append(serializers.serialize('json', [trip]))
+                return JsonResponse(json.dumps(triplist, default=dumper, indent=3), safe=False)
+        else:
+            trips = Trip.objects.filter(owner__user=auth.get_user(request))
+            traveler = Traveler.objects.filter(user=auth.get_user(request))[0]
+            return render(request, 'JointTripApp/profile.html', {
+                "trips": trips,
+                "traveler": traveler
+                # 'user': auth.get_user(request)
+            })
     else:
         return redirect('/signin.html')
 
