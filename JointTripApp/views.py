@@ -43,21 +43,21 @@ def index(request):
     elif request.GET:
         stringdate = request.GET.get('date', '')
         departure = request.GET.get('departure', '')
-        arrival = request.GET.get('arrival', '')
+        arrival = request.GET.get('arrive', '')
 
         if " - " in stringdate:
             firstdatestr, lastdatestr = stringdate.split(" - ")
             firstdate = datetime.strptime(firstdatestr, '%d.%m.%Y')
             lastdate = datetime.strptime(lastdatestr, '%d.%m.%Y')
-            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival,
+            trips = Trip.objects.filter(departure=departure, arrival=arrival,
                                         start_time__range=[firstdate, lastdate])
         elif len(stringdate) != 0:
             firstdate = datetime.strptime(stringdate, '%d.%m.%Y')
             lastdate = firstdate + timedelta(days=1) - timedelta(minutes=1)
-            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival,
+            trips = Trip.objects.filter(departure=departure, arrival=arrival,
                                         start_time__range=[firstdate, lastdate])
         else:
-            trips = Trip.objects.filter(departure__contains=departure, arrival__contains=arrival)
+            trips = Trip.objects.filter(departure=departure, arrival=arrival)
 
         triplist = []
 
