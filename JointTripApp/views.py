@@ -139,10 +139,12 @@ def addtrip(request):
         talk = request.POST.get('talk', '')
         comment = request.POST.get('comment', '')
         price = request.POST.get('price', '')
+        datestr = request.POST.get('date', '')
+        date = datetime.strptime(datestr, '%d.%m.%Y %M:%S')
         trip = Trip(owner=Traveler.objects.get(user=auth.get_user(request)), departure=departure, arrival=arrival,
                     number_of_seats=seats, pets=bool(re.match('on', pets)), smoke=bool(re.match('on', smoke)),
                     talk=bool(re.match('on', talk)), comment=comment, price=price,
-                    start_time=datetime.datetime.now())
+                    start_time=date)
         trip.save()
         return redirect('/profile.html')
     elif request.user.is_authenticated:

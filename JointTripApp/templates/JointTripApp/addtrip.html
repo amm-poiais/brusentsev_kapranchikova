@@ -21,8 +21,9 @@
             <label for="inputFrom" class="col-sm-2 control-label">Откуда</label>
             <div class="col-sm-10">
                 <select class="form-control input-sm" name="departure" required>
-                    <option>Город - 1</option>
-                    <option>Город - 2</option>
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+                {% endfor %}
                 </select>
             </div>
         </div>
@@ -31,8 +32,9 @@
             <label for="inputTO" class="col-sm-2 control-label" >Куда</label>
             <div class="col-sm-10">
                  <select class="form-control input-sm" name="arrival" required>
-                    <option>Город - 1</option>
-                    <option>Город - 2</option>
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+                {% endfor %}
                 </select>
             </div>
         </div>
