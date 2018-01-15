@@ -34,11 +34,11 @@ $(document).ready(function () {
             }
         }
     });
-
+    var cnt = 0;
     actTrip = function (id_trip, type, button) {
         var res = true;
         if (type == OWNER) {
-            res = prompt("Предупреждение", "Вы действительно хотите удалить поездку?");
+            res = confirm( "Вы действительно хотите удалить поездку?");
 
         }
         if (res)
@@ -79,14 +79,14 @@ $(document).ready(function () {
                 for (var i = 0; i < data.length; i++) {
                     var date = new Date( data[i].key[0].fields.start_time);
                     $(".new-trips")
-                        .append('<div class="trip">' +
+                        .append('<div class="trip trip-'+cnt+'">' +
                             '<div class="title">' +
                             data[i].key[0].fields.departure + ' - ' + data[i].key[0].fields.arrival +
                             '<div class="time">' + formatDate(date) + '</div>' +
                             '</div>' +
                             '<div class="wrap-price-comm">' +
                             '<div class="description">' + data[i].key[0].fields.comment + '</div>' +
-                            '<div class="duration">' + data[i].key[0].fields.duration + '</div>' +
+                            // '<div class="duration">' + data[i].key[0].fields.duration + '</div>' +
                             '<div class="price">' + data[i].key[0].fields.price + 'p.</div>' +
                             '</div>' +
                             '<div class="wrap-icons-button">' +
@@ -100,59 +100,67 @@ $(document).ready(function () {
 
                             '</div>');
                     if (data[i].key[0].fields.smoke) {
-                        $(".trip .icon.smoke").addClass("allow");
+                        $(".trip.trip-"+cnt+" .icon.smoke").addClass("allow");
                     }
                     if (data[i].key[0].fields.pets) {
-                        $(".trip .icon.pets").addClass("allow");
+                        $(".trip.trip-"+cnt+" .icon.pets").addClass("allow");
                     }
                     if (data[i].key[0].fields.talk) {
-                        $(".trip .icon.talk").addClass("allow");
+                        $(".trip.trip-"+cnt+" .icon.talk").addClass("allow");
                     }
 
                     if ($('*').is('.profile')) {
-                        $(".new-trips .trip .wrap-icons-button").append('<div class="trip__button" onclick="actTrip(' + data[i].key[0].pk + ',\'' + data[i].value + '\', this)"></div>');
-                        $(".trip .trip__button").data("id_trip", data[i].key[0].pk);
+                        $(".new-trips .trip.trip-"+cnt+" .wrap-icons-button").append('<div class="trip__button" onclick="actTrip(' + data[i].key[0].pk + ',\'' + data[i].value + '\', this)"></div>');
+                        $(".trip.trip-"+cnt+" .trip__button").data("id_trip", data[i].key[0].pk);
 
                         if (data[i].value == "user") {
-                            $(".trip .trip__button").append("Отсоединиться");
+                            $(".trip.trip-"+cnt+" .trip__button").append("Отсоединиться");
                             // $(".trip .trip__button").addClass("unJoin");
 
                         } else if (data[i].value == "owner") {
-                            $(".trip .trip__button").append("Удалить");
+                            $(".trip.trip-"+cnt+" .trip__button").append("Удалить");
                             // $(".trip .trip__button").addClass("remove");
                         } else if (data[i].value == "none") {
-                            $(".trip .trip__button").append("Присоединиться");
+                            $(".trip.trip-"+cnt+" .trip__button").append("Присоединиться");
                             // $(".trip .trip__button").addClass("join");
                         }
                     }
+                    cnt++;
                 }
             });
     });
 
 
     $(".myJoinTrip").click(function () {
+        $(".my-trips").empty();
         $(".myJoinTrip").addClass("active");
         $(".createdTrip").removeClass("active");
         $.get("/profile", {type: "mytrip"})
             .done(function (data) {
 
                 data = JSON.parse(data);
-                data = JSON.parse(data);
-                console.log(data);
-                addTripToProfile(data, "user");
+                for(var i = 0; i<data.length; i++){
+                    data[i] = JSON.parse(data[i]);
+                    console.log(data[i]);
+                    addTripToProfile(data[i], "user");
+                }
+
             });
     });
 
     $(".createdTrip").click(function () {
+        $(".my-trips").empty();
         $(".myJoinTrip").removeClass("active");
         $(".createdTrip").addClass("active");
         $.get("/profile", {type: "createdtrip"})
             .done(function (data) {
-
-                data = JSON.parse(data);
                 data = JSON.parse(data);
                 console.log(data);
-                addTripToProfile(data, "owner");
+                for(var i = 0; i<data.length; i++){
+                    data[i] = JSON.parse(data[i]);
+                    addTripToProfile(data[i], "owner");
+                }
+
             });
     });
 
@@ -172,22 +180,20 @@ $(document).ready(function () {
 
         return day + ' ' + monthNames[monthIndex] + ' ' + year + ' '+ hour +':'+min;
     }
-
     function addTripToProfile(data, type) {
-        $(".my-trips").empty();
 
-        for (var i = 0; i < data.length; i++) {
-            var date = new Date(data[i].fields.start_time);
+        // for (var i = 0; i < data.length; i++) {
+            var date = new Date(data[0].fields.start_time);
             $(".my-trips")
-                .append('<div class="trip">' +
+                .append('<div class="trip trip-'+cnt+'">' +
                     '<div class="title">' +
-                    data[i].fields.departure + ' - ' + data[i].fields.arrival +
+                    data[0].fields.departure + ' - ' + data[0].fields.arrival +
                     '<div class="time">' + formatDate(date) + '</div>' +
                     '</div>' +
                     '<div class="wrap-price-comm">' +
-                    '<div class="description">' + data[i].fields.comment + '</div>' +
-                    '<div class="duration">' + data[i].fields.duration + '</div>' +
-                    '<div class="price">' + data[i].fields.price + 'p.</div>' +
+                    '<div class="description">' + data[0].fields.comment + '</div>' +
+                    // '<div class="duration">' + data[i].fields.duration + '</div>' +
+                    '<div class="price">' + data[0].fields.price + 'p.</div>' +
                     '</div>' +
                     '<div class="wrap-icons-button">' +
                     '<div class="icon-conditions">' +
@@ -198,25 +204,26 @@ $(document).ready(function () {
 
 
                     '</div>');
-            if (data[i].fields.smoke) {
+            if (data[0].fields.smoke) {
                 $(".trip .icon.smoke").addClass("allow");
             }
-            if (data[i].pets) {
+            if (data[0].pets) {
                 $(".trip .icon.pets").addClass("allow");
             }
-            if (data[i].fields.talk) {
+            if (data[0].fields.talk) {
                 $(".trip .icon.talk").addClass("allow");
             }
 
-            $(".my-trips .trip .wrap-icons-button").append('<div class="trip__button" onclick="actTrip(' + data[i].pk + ',\'' + type + '\', this)"></div>');
+            $(".my-trips .trip.trip-"+cnt+" .wrap-icons-button").append('<div class="trip__button" onclick="actTrip(' + data[0].pk + ',\'' + type + '\', this)"></div>');
             switch (type) {
                 case "user":
-                    $(".trip .trip__button").append("Отсоединиться");
+                    $(".trip.trip-"+cnt+" .trip__button").append("Отсоединиться");
                     break;
                 case "owner":
-                    $(".trip .trip__button").append("Удалить");
+                    $(".trip.trip-"+cnt+" .trip__button").append("Удалить");
                     break;
             }
-        }
+            cnt++;
+        // }
     }
 });
