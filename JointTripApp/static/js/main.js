@@ -77,12 +77,12 @@ $(document).ready(function () {
                 $(".new-trips").empty();
                 $(".new-trips").append('<h2>Поездки</h2>');
                 for (var i = 0; i < data.length; i++) {
-
+                    var date = new Date( data[i].key[0].fields.start_time);
                     $(".new-trips")
                         .append('<div class="trip">' +
                             '<div class="title">' +
                             data[i].key[0].fields.departure + ' - ' + data[i].key[0].fields.arrival +
-                            '<div class="time">' + data[i].key[0].fields.start_time + '</div>' +
+                            '<div class="time">' + formatDate(date) + '</div>' +
                             '</div>' +
                             '<div class="wrap-price-comm">' +
                             '<div class="description">' + data[i].key[0].fields.comment + '</div>' +
@@ -156,16 +156,33 @@ $(document).ready(function () {
             });
     });
 
+    function formatDate(date) {
+        var monthNames = [
+            "января", "февраля", "марта",
+            "апреля", "мая", "июня", "июля",
+            "августа", "сентября", "октября",
+            "ноября", "декабря"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+
+        return day + ' ' + monthNames[monthIndex] + ' ' + year + ' '+ hour +':'+min;
+    }
+
     function addTripToProfile(data, type) {
         $(".my-trips").empty();
 
         for (var i = 0; i < data.length; i++) {
-
+            var date = new Date(data[i].fields.start_time);
             $(".my-trips")
                 .append('<div class="trip">' +
                     '<div class="title">' +
                     data[i].fields.departure + ' - ' + data[i].fields.arrival +
-                    '<div class="time">' + data[i].fields.start_time + '</div>' +
+                    '<div class="time">' + formatDate(date) + '</div>' +
                     '</div>' +
                     '<div class="wrap-price-comm">' +
                     '<div class="description">' + data[i].fields.comment + '</div>' +
