@@ -20,14 +20,22 @@
         <div class="form-group">
             <label for="inputFrom" class="col-sm-2 control-label">Откуда</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Откуда" name="departure" required>
+                <select class="form-control input-sm" name="departure" required>
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+                {% endfor %}
+                </select>
             </div>
         </div>
 
         <div class="form-group">
             <label for="inputTO" class="col-sm-2 control-label" >Куда</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Куда" name="arrival" required>
+                 <select class="form-control input-sm" name="arrival" required>
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+                {% endfor %}
+                </select>
             </div>
         </div>
         <div class="form-group">

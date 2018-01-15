@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <title>JointTrip</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/libs/datepicker/datepicker.min.css' %}">
+    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/libs/datepicker.min.js' %}"></script>
+
+    <script src="{% static 'js/libs/i18n/datepicker.ru.js' %}"></script>
+    <script src="{% static 'js/libs/jquery.cookie.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/libs/bootstrap.min.css' %}">
-    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static  'js/profile.js' %}"></script>
+
+    <script src="{% static  'js/main.js' %}"></script>
 
 </head>
 <body>
@@ -16,10 +23,10 @@
     <header class="header">
         <a class="header__button logo" href="/">JointTrip</a>
         {% if user.is_authenticated %}
-            <a class="header__button"  href="/addtrip">Создать поездку</a>
-            <a class="header__button"  href="/signout">Выйти</a>
+            <a class="header__button" href="/addtrip">Создать поездку</a>
+            <a class="header__button" href="/signout">Выйти</a>
         {% else %}
-            <a class="header__button"  href="/signin">Войти</a>
+            <a class="header__button" href="/signin">Войти</a>
         {% endif %}
     </header>
 
@@ -34,39 +41,40 @@
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Имя</label>
                     <div class="col-sm-10">
-                        {{ traveler.name }}
-{#                        <input type="text" class="form-control" placeholder="Имя" name="name" disabled>#}
+
+                        <div class="col-xs-10">
+                            <p class="form-control-static">{{ traveler.name }}</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputSurname" class="col-sm-2 control-label">Фамилиия</label>
                     <div class="col-sm-10">
-                        {{ traveler.surname }}
-{#                        <input type="text" class="form-control" placeholder="Фамилия" name="surname" disabled>#}
+
+                        <div class="col-xs-10">
+                            <p class="form-control-static">{{ traveler.surname }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputLogin" class="col-sm-2 control-label">Логин</label>
                     <div class="col-sm-10">
-                        {{ traveler.user.username }}
-{#                        <input type="text" class="form-control" placeholder="Логин" name="login" readonly>#}
+
+                        <div class="col-xs-10">
+                            <p class="form-control-static">{{ traveler.user.username }}</p>
+                        </div>
                     </div>
                 </div>
-               <div class="form-group">
+                <div class="form-group">
                     <label for="inputLogin" class="col-sm-2 control-label">E-mail</label>
                     <div class="col-sm-10">
-                        {{ traveler.user.email }}
-{#                        <input type="text" class="form-control" placeholder="Логин" name="login" readonly>#}
+                        <div class="col-xs-10">
+                            <p class="form-control-static">{{ traveler.user.email }}</p>
+                        </div>
+
                     </div>
                 </div>
-
-{#                <div class="form-group">#}
-{#                    <div class="col-sm-offset-2 col-sm-10">#}
-{#                        <button type="submit" class="btn btn-success btn-sm">Сохранить</button>#}
-{##}
-{#                    </div>#}
-{#                </div>#}
             </form>
         </div>
 
@@ -75,18 +83,18 @@
             <li class="active createdTrip"><a href="#">Созданные поездки</a></li>
             <li class="myJoinTrip"><a href="#">Мои поездки</a></li>
         </ul>
-        <div>
+        <div class="my-trips">
             {% for trip in trips %}
-            <div class="trip">
-                <div class="title">
-                    <a href="">{{ trip.departure }} - {{ trip.arrival }}</a>
-                    <div class="time">{{ trip.start_time }}</div>
-                </div>
-                <div class="wrap-price-comm">
-                    <div class="description">{{ trip.comment }} </div>
-                    <div class="price">{{ trip.price }}</div>
-                </div>
-                <div class="wrap-icons-button">
+                <div class="trip">
+                    <div class="title">
+                        <a href="">{{ trip.departure }} - {{ trip.arrival }}</a>
+                        <div class="time">{{ trip.start_time }}</div>
+                    </div>
+                    <div class="wrap-price-comm">
+                        <div class="description">{{ trip.comment }} </div>
+                        <div class="price">{{ trip.price }}</div>
+                    </div>
+                    <div class="wrap-icons-button">
                         <div class="icon-conditions">
                             {% if trip.talk %}
                                 <div class="icon talk allow"></div>
@@ -104,9 +112,9 @@
                                 <div class="icon smoke"></div>
                             {% endif %}
                         </div>
-                    <button type="button" class="btn btn-danger">Удалить</button>
+                        <button type="button" class="btn btn-danger">Удалить</button>
+                    </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>
