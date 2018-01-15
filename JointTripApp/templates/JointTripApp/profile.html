@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <title>JointTrip</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/libs/datepicker/datepicker.min.css' %}">
+    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/libs/datepicker.min.js' %}"></script>
+
+    <script src="{% static 'js/libs/i18n/datepicker.ru.js' %}"></script>
+    <script src="{% static 'js/libs/jquery.cookie.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/libs/bootstrap.min.css' %}">
-    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static  'js/profile.js' %}"></script>
+
+    <script src="{% static  'js/main.js' %}"></script>
 
 </head>
 <body>
@@ -76,7 +83,7 @@
             <li class="active createdTrip"><a href="#">Созданные поездки</a></li>
             <li class="myJoinTrip"><a href="#">Мои поездки</a></li>
         </ul>
-        <div>
+        <div class="my-trips">
             {% for trip in trips %}
                 <div class="trip">
                     <div class="title">

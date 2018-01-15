@@ -2,7 +2,6 @@ var OWNER = 'owner';
 var USER = 'user';
 var NONE = 'none';
 
-
 actTrip = function () {
 };
 
@@ -35,7 +34,6 @@ $(document).ready(function () {
             }
         }
     });
-
 
     actTrip = function (id_trip, type, button) {
         var res = true;
@@ -127,12 +125,81 @@ $(document).ready(function () {
                             // $(".trip .trip__button").addClass("join");
                         }
                     }
-
-
                 }
-
-
             });
     });
 
+
+    $(".myJoinTrip").click(function () {
+        $(".myJoinTrip").addClass("active");
+        $(".createdTrip").removeClass("active");
+        $.get("/profile", {type: "mytrip"})
+            .done(function (data) {
+
+                data = JSON.parse(data);
+                data = JSON.parse(data);
+                console.log(data);
+                addTripToProfile(data, "user");
+            });
+    });
+
+    $(".createdTrip").click(function () {
+        $(".myJoinTrip").removeClass("active");
+        $(".createdTrip").addClass("active");
+        $.get("/profile", {type: "createdtrip"})
+            .done(function (data) {
+
+                data = JSON.parse(data);
+                data = JSON.parse(data);
+                console.log(data);
+                addTripToProfile(data, "owner");
+            });
+    });
+
+    function addTripToProfile(data, type) {
+        $(".my-trips").empty();
+
+        for (var i = 0; i < data.length; i++) {
+
+            $(".my-trips")
+                .append('<div class="trip">' +
+                    '<div class="title">' +
+                    data[i].fields.departure + ' - ' + data[i].fields.arrival +
+                    '<div class="time">' + data[i].fields.start_time + '</div>' +
+                    '</div>' +
+                    '<div class="wrap-price-comm">' +
+                    '<div class="description">' + data[i].fields.comment + '</div>' +
+                    '<div class="duration">' + data[i].fields.duration + '</div>' +
+                    '<div class="price">' + data[i].fields.price + 'p.</div>' +
+                    '</div>' +
+                    '<div class="wrap-icons-button">' +
+                    '<div class="icon-conditions">' +
+                    '<div class="icon talk"></div>' +
+                    '<div class="icon pets"></div>' +
+                    '<div class="icon smoke"></div>' +
+                    '</div>' +
+
+
+                    '</div>');
+            if (data[i].fields.smoke) {
+                $(".trip .icon.smoke").addClass("allow");
+            }
+            if (data[i].pets) {
+                $(".trip .icon.pets").addClass("allow");
+            }
+            if (data[i].fields.talk) {
+                $(".trip .icon.talk").addClass("allow");
+            }
+
+            $(".my-trips .trip .wrap-icons-button").append('<div class="trip__button" onclick="actTrip(' + data[i].pk + ',\'' + type + '\', this)"></div>');
+            switch (type) {
+                case "user":
+                    $(".trip .trip__button").append("Отсоединиться");
+                    break;
+                case "owner":
+                    $(".trip .trip__button").append("Удалить");
+                    break;
+            }
+        }
+    }
 });
