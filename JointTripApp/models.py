@@ -14,8 +14,8 @@ class Traveler(models.Model):
     email = models.CharField(max_length=255)
 
     def __str__(self):
-        return 'Username: %s; email: %s' % (
-            self.user.username, self.email)
+        return 'Username: %s; Name: %s; Surname: %s; email: %s' % (
+            self.user.username, self.name, self.surname, self.email)
 
 
 # поездка
@@ -36,7 +36,7 @@ class Trip(models.Model):
     smoke = models.BooleanField(default=False)
     pets = models.BooleanField(default=False)
 
-    passengers = models.ManyToManyField('Traveler')
+    passengers = models.ManyToManyField('Traveler', blank=True)
 
 
 # отзыв
@@ -45,3 +45,7 @@ class Review(models.Model):
     to_whom = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='to_whom_review')
     mark = models.IntegerField(default=0)
     comment = models.CharField(max_length=255)
+
+
+class City(models.Model):
+    name = models.CharField(max_length=255)

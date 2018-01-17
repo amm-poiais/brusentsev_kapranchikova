@@ -1,0 +1,111 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JointTrip</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/libs/datepicker/datepicker.min.css' %}">
+    <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/libs/datepicker.min.js' %}"></script>
+
+    <script src="{% static 'js/libs/i18n/datepicker.ru.js' %}"></script>
+    <script src="{% static 'js/libs/jquery.cookie.js' %}"></script>
+
+    <script src="{% static  'js/main.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="wrap-header">
+    <header class="header">
+        <a class="header__button logo" href="/">JointTrip</a>
+        {% if user.is_authenticated %}
+            <a class="header__button profile" href="/profile">Профиль</a>
+            <a class="header__button" href="/signout">Выйти</a>
+        {% else %}
+            <a class="header__button" href="/signin">Войти</a>
+        {% endif %}
+    </header>
+</div>
+
+
+<div class="wrap-content">
+    <div class="content">
+        <div class="filters">
+            <span>Найти поездку</span>
+            <input type="text"
+                   id="datepicker"
+                   data-range="true"
+                   data-multiple-dates-separator=" - "
+                   data-language="ru"
+                   placeholder="Дата"
+                   class="datepicker-here filters__input"/>
+{#            <input type="text" class="filters__input" id="departure" placeholder="Откуда">#}
+            <select id="departure" class="filters__input">
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+            {% endfor %}
+            </select>
+            <select id="arrive" class="filters__input">
+                {% for city in cities %}
+                    <option>{{ city.name }}</option>
+            {% endfor %}
+            </select>
+{#            <input type="text" class="filters__input" id="arrive" placeholder="Куда">#}
+            <a class="filters__button" id="find">Найти</a>
+        </div>
+
+        <div class="new-trips">
+            <h2>Поездки</h2>
+            {% for pair in triplist %}
+                <div class="trip">
+                    <div class="title">
+                        {{ pair.key.departure }} - {{ pair.key.arrival }}
+                        <div class="time">{{ pair.key.start_time }}</div>
+                    </div>
+                    <div class="wrap-price-comm">
+                        <div class="description">{{ pair.key.comment }}</div>
+{#                        <div class="duration">{{ pair.key.duration }}</div>#}
+                        <div class="price">{{ pair.key.price }}p.</div>
+                    </div>
+                    <div class="wrap-icons-button">
+                        <div class="icon-conditions">
+                            {% if pair.key.talk %}
+                                <div class="icon talk allow"></div>
+                            {% else %}
+                                <div class="icon talk"></div>
+                            {% endif %}
+                            {% if pair.key.pets %}
+                                <div class="icon pets allow"></div>
+                            {% else %}
+                                <div class="icon pets"></div>
+                            {% endif %}
+                            {% if pair.key.smoke %}
+                                <div class="icon smoke allow"></div>
+                            {% else %}
+                                <div class="icon smoke"></div>
+                            {% endif %}
+                        </div>
+                        {% if user.is_authenticated %}
+                            {% if pair.value == 'user' %}
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'user', this)">Отсоединиться</div>
+                            {% elif  pair.value == 'owner' %}
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'owner' , this)">Удалить</div>
+                            {% else %}
+                                <div class="trip__button"  onclick="actTrip({{ pair.key.pk }}, 'none', this)">Присоедениться</div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

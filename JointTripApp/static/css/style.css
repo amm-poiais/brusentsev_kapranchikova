@@ -1,0 +1,195 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #EDEEF0;
+}
+
+.wrap-header {
+    background-color: #4682B4;
+    color: #ffffff;
+}
+
+.header {
+    width: 1000px;
+    min-height: 50px;
+    margin: 0 auto 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.header__button {
+    font-weight: 700;
+    padding: 5px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header__button:hover {
+}
+
+.filters {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.filters__input {
+    padding: 7px;
+}
+
+.filters__button {
+    cursor: pointer;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: #469acf;
+    box-shadow: 0 -3px #4682B4 inset;
+    transition: 0.2s;
+}
+
+.filters__button:hover {
+    background: #4682B4;
+}
+
+.content {
+    width: 1000px;
+    margin: auto;
+}
+
+.new-trips {
+}
+
+h2 {
+    font-size: 30px;
+    margin-left: 20px;
+}
+
+.trip {
+    margin-top: 15px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #cdcfd3;
+    border-radius: 2px;
+}
+.trip .title{
+   margin-bottom: 10px;
+    color: #2a5885;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.trip .time{
+    font-size: 14px;
+    margin-top: 5px;
+    color: #4a4a4a;
+}
+.trip .description{
+    font-size: 18px;
+    flex-basis: 800px;
+}
+
+.wrap-price-comm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 5px;
+}
+
+.wrap-icons-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.trip__button{
+    cursor: pointer;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: .8em 1em calc(.8em + 3px);
+    border-radius: 3px;
+    background: #469acf;
+    box-shadow: 0 -3px #4682B4 inset;
+    transition: 0.2s;
+}
+
+.trip .price{
+    font-size: 30px;
+    font-weight: bold;
+}
+.trip .icon-conditions {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.trip .icon-conditions .icon {
+    margin: 0 10px;
+    height: 48px;
+    width: 48px;
+    background: url("../img/icons.png");
+}
+
+.trip .icon-conditions .icon.talk{
+    background-position: 0 0;
+}
+.trip .icon-conditions .icon.pets{
+    background-position: 48px 0;
+
+}
+.trip .icon-conditions .icon.smoke{
+    background-position: 96px 0;
+}
+.trip .icon-conditions .icon.talk.allow{
+    background-position: 0 48px;
+}
+.trip .icon-conditions .icon.pets.allow{
+    background-position: 48px 48px;
+}
+.trip .icon-conditions .icon.smoke.allow{
+    background-position: 96px 48px;
+}
+
+.trip .icon-conditions .icon:first-child {
+    margin-left: 0;
+}
+
+.form form {
+    width: 300px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.form-add-trip form {
+    width: 600px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.form-profile form {
+    width: 500px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
